@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amaliyot - DB Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a56db, #1e3a8a);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        header h1 { font-size: 22px; color: #00d4ff; }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: #00d4ff; }
+        nav a.active { color: #00d4ff; border-bottom: 2px solid #00d4ff; }
+
+        .page-title {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+
+        .page-title h2 {
+            font-size: 36px;
+            background: linear-gradient(to right, #00d4ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-title p { color: #6b7280; margin-top: 8px; }
+
+        .simulator {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 30px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .panel {
+            background: #ffffff;
+            border: 1px solid #93c5fd;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .panel h3 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Jadval ko'rinishi */
+        .jadval-panel {
+            grid-column: 1 / -1;
+        }
+
+        .db-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .db-table th {
+            background: linear-gradient(135deg, #00d4ff33, #a855f733);
+            color: #00d4ff;
+            padding: 10px 15px;
+            text-align: left;
+            border: 1px solid #93c5fd;
+        }
+
+        .db-table td {
+            padding: 10px 15px;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        .db-table tr:hover td { background: #f3f4f6; }
+
+        /* SQL Editor */
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #f0f0f0;
+            color: #059669;
+            border: 1px solid #93c5fd;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+        }
+
+        textarea:focus { border-color: #3b82f6; }
+
+        .btn-run {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #00d4ff, #a855f7);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-run:hover { transform: scale(1.02); }
+
+        /* Natija */
+        .natija {
+            min-height: 150px;
+        }
+
+        .natija-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .natija-table th {
+            background: #f3e8ff;
+            color: #a855f7;
+            padding: 8px 12px;
+            border: 1px solid #a855f733;
+            text-align: left;
+        }
+
+        .natija-table td {
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        .xabar {
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .xabar.success { background: #00ff8811; color: #059669; border: 1px solid #00ff8833; }
+        .xabar.error { background: #ff444411; color: #ff4444; border: 1px solid #ff444433; }
+
+        /* Misollar */
+        .misollar { display: flex; flex-direction: column; gap: 8px; }
+
+        .misol-btn {
+            background: #f3f4f6;
+            border: 1px solid #ffffff15;
+            color: #6b7280;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            transition: all 0.2s;
+        }
+
+        .misol-btn:hover {
+            background: #eff6ff;
+            color: #00d4ff;
+            border-color: #3b82f633;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🗄️ DB Academy</h1>
+        <nav>
+            <a href="index.html">Bosh sahifa</a>
+            <a href="darslar.html">Darslar</a>
+            <a href="amaliyot.html" class="active">Amaliyot</a>
+            <a href="test.html">Test</a>
+        </nav>
+    </header>
+
+    <div class="page-title">
+        <h2>⚡ SQL Simulyator</h2>
+        <p>SQL so'rovlarini yozing va natijani hoziroq ko'ring!</p>
+    </div>
+
+    <div class="simulator">
+
+        <!-- Jadval ko'rinishi -->
+        <div class="panel jadval-panel">
+            <h3>📋 Mavjud Jadval — "talabalar"</h3>
+            <table class="db-table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>ism</th>
+                        <th>familiya</th>
+                        <th>yosh</th>
+                        <th>guruh</th>
+                        <th>baho</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Alisher</td><td>Karimov</td><td>20</td><td>CS-101</td><td>95</td></tr>
+                    <tr><td>2</td><td>Malika</td><td>Yusupova</td><td>21</td><td>CS-101</td><td>88</td></tr>
+                    <tr><td>3</td><td>Bobur</td><td>Toshmatov</td><td>19</td><td>CS-102</td><td>72</td></tr>
+                    <tr><td>4</td><td>Nilufar</td><td>Rahimova</td><td>22</td><td>CS-102</td><td>91</td></tr>
+                    <tr><td>5</td><td>Jasur</td><td>Mirzayev</td><td>20</td><td>CS-103</td><td>65</td></tr>
+                    <tr><td>6</td><td>Zulfiya</td><td>Nazarova</td><td>21</td><td>CS-103</td><td>78</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SQL Editor -->
+        <div class="panel">
+            <h3>✏️ SQL Yozing</h3>
+            <textarea id="sqlInput" placeholder="SQL so'rovingizni shu yerga yozing...">SELECT * FROM talabalar</textarea>
+            <button class="btn-run" onclick="sqlRun()">▶ Bajarish</button>
+
+            <div style="margin-top: 20px;">
+                <h3 style="margin-bottom:10px;">💡 Misollar</h3>
+                <div class="misollar">
+                    <button class="misol-btn" onclick="setSQL('SELECT * FROM talabalar')">SELECT * FROM talabalar</button>
+                    <button class="misol-btn" onclick="setSQL('SELECT ism, familiya FROM talabalar')">SELECT ism, familiya FROM talabalar</button>
+                    <button class="misol-btn" onclick="setSQL('SELECT * FROM talabalar WHERE yosh = 20')">SELECT * FROM talabalar WHERE yosh = 20</button>
+                    <button class="misol-btn" onclick="setSQL('SELECT * FROM talabalar WHERE baho > 80')">SELECT * FROM talabalar WHERE baho > 80</button>
+                    <button class="misol-btn" onclick="setSQL('SELECT * FROM talabalar WHERE guruh = \"CS-101\"')">SELECT * FROM talabalar WHERE guruh = "CS-101"</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Natija -->
+        <div class="panel natija">
+            <h3>📊 Natija</h3>
+            <div id="natija">
+                <p style="color: #6b7280;">So'rov bajaring — natija shu yerda chiqadi</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 DB Academy — Ma'lumotlar Bazasi O'quv Platformasi</p>
+    </footer>
+
+    <script>
+        // Ma'lumotlar bazasi (JavaScript da)
+        const talabalar = [
+            { id: 1, ism: 'Alisher', familiya: 'Karimov', yosh: 20, guruh: 'CS-101', baho: 95 },
+            { id: 2, ism: 'Malika', familiya: 'Yusupova', yosh: 21, guruh: 'CS-101', baho: 88 },
+            { id: 3, ism: 'Bobur', familiya: 'Toshmatov', yosh: 19, guruh: 'CS-102', baho: 72 },
+            { id: 4, ism: 'Nilufar', familiya: 'Rahimova', yosh: 22, guruh: 'CS-102', baho: 91 },
+            { id: 5, ism: 'Jasur', familiya: 'Mirzayev', yosh: 20, guruh: 'CS-103', baho: 65 },
+            { id: 6, ism: 'Zulfiya', familiya: 'Nazarova', yosh: 21, guruh: 'CS-103', baho: 78 },
+        ];
+
+        function setSQL(query) {
+            document.getElementById('sqlInput').value = query;
+        }
+
+        function sqlRun() {
+            const query = document.getElementById('sqlInput').value.trim().toLowerCase();
+            const natija = document.getElementById('natija');
+
+            try {
+                let result = [...talabalar];
+
+                // SELECT qaysi ustunlar
+                let columns = ['id', 'ism', 'familiya', 'yosh', 'guruh', 'baho'];
+
+                const selectMatch = query.match(/select (.+?) from/);
+                if (selectMatch) {
+                    const cols = selectMatch[1].trim();
+                    if (cols !== '*') {
+                        columns = cols.split(',').map(c => c.trim());
+                    }
+                }
+
+                // WHERE sharti
+                const whereMatch = query.match(/where (.+)/);
+                if (whereMatch) {
+                    const shart = whereMatch[1].trim();
+
+                    // WHERE ustun = qiymat
+                    const tengMatch = shart.match(/(\w+)\s*=\s*["']?([^"']+)["']?/);
+                    const kattaMatch = shart.match(/(\w+)\s*>\s*(\d+)/);
+                    const kichikMatch = shart.match(/(\w+)\s*<\s*(\d+)/);
+
+                    if (tengMatch) {
+                        const [, ustun, qiymat] = tengMatch;
+                        result = result.filter(r => String(r[ustun]).toLowerCase() === qiymat.toLowerCase().trim());
+                    } else if (kattaMatch) {
+                        const [, ustun, qiymat] = kattaMatch;
+                        result = result.filter(r => Number(r[ustun]) > Number(qiymat));
+                    } else if (kichikMatch) {
+                        const [, ustun, qiymat] = kichikMatch;
+                        result = result.filter(r => Number(r[ustun]) < Number(qiymat));
+                    }
+                }
+
+                // Natijani ko'rsatish
+                if (result.length === 0) {
+                    natija.innerHTML = '<div class="xabar success">✓ So\'rov bajarildi — natija topilmadi (0 qator)</div>';
+                    return;
+                }
+
+                let html = '<table class="natija-table"><thead><tr>';
+                columns.forEach(col => html += `<th>${col}</th>`);
+                html += '</tr></thead><tbody>';
+
+                result.forEach(row => {
+                    html += '<tr>';
+                    columns.forEach(col => html += `<td>${row[col] !== undefined ? row[col] : '—'}</td>`);
+                    html += '</tr>';
+                });
+
+                html += `</tbody></table><div class="xabar success" style="margin-top:10px;">✓ ${result.length} ta qator topildi</div>`;
+                natija.innerHTML = html;
+
+            } catch (e) {
+                natija.innerHTML = '<div class="xabar error">✗ Xato! SQL so\'rovni tekshiring</div>';
+            }
+        }
+    </script>
+
+</body>
+</html>

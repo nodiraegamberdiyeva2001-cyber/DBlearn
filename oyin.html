@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyinlar - DB Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; color: #1a1a2e; }
+        header {
+            background: linear-gradient(135deg, #1a56db, #1e3a8a);
+            padding: 15px 40px; display: flex;
+            justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        header h1 { font-size: 22px; color: #00d4ff; }
+        nav a { color: #ffffff; text-decoration: none; margin-left: 25px; font-size: 15px; }
+        nav a:hover { color: #00d4ff; }
+        nav a.active { color: #00d4ff; border-bottom: 2px solid #00d4ff; }
+        .page-title { text-align: center; padding: 40px 20px 20px; }
+        .page-title h2 {
+            font-size: 36px;
+            background: linear-gradient(to right, #00d4ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-title p { color: #6b7280; margin-top: 8px; }
+        .oyin-tanlash { display: flex; justify-content: center; gap: 20px; padding: 20px 40px; flex-wrap: wrap; }
+        .oyin-btn {
+            background: #ffffff;
+            border: 2px solid #00d4ff33; border-radius: 16px;
+            padding: 25px 30px; cursor: pointer; text-align: center;
+            width: 220px; transition: all 0.3s; color: #1a1a2e;
+        }
+        .oyin-btn:hover { border-color: #3b82f6; transform: translateY(-5px); }
+        .oyin-btn.active { border-color: #3b82f6; background: linear-gradient(135deg, #dbeafe, #f3e8ff); }
+        .oyin-btn .icon { font-size: 40px; margin-bottom: 10px; }
+        .oyin-btn h3 { font-size: 16px; margin-bottom: 5px; }
+        .oyin-btn p { font-size: 12px; color: #6b7280; }
+        .oyin-maydoni { max-width: 800px; margin: 20px auto; padding: 0 30px 60px; display: none; }
+        .oyin-maydoni.show { display: block; }
+        .panel { background: #ffffff; border: 1px solid #93c5fd; border-radius: 16px; padding: 30px; margin-bottom: 20px; }
+        .panel h3 { color: #00d4ff; margin-bottom: 20px; font-size: 18px; }
+        .btn { padding: 12px 30px; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; background: linear-gradient(135deg, #00d4ff, #a855f7); color: #1a1a2e; transition: transform 0.2s; }
+        .btn:hover { transform: scale(1.03); }
+        .btn-full { width: 100%; padding: 14px; font-size: 16px; margin-top: 15px; }
+        .xabar { padding: 12px 15px; border-radius: 8px; font-size: 14px; margin-top: 10px; display: none; }
+        .xabar.show { display: block; }
+        .xabar.success { background: #00ff8811; color: #059669; border: 1px solid #00ff8833; }
+        .xabar.error { background: #ff444411; color: #ff8888; border: 1px solid #ff444433; }
+        .natija-box { text-align: center; padding: 30px; background: #ffffff; border: 1px solid #93c5fd; border-radius: 16px; display: none; margin-bottom: 20px; }
+        .natija-box.show { display: block; }
+        .natija-ball { font-size: 60px; font-weight: bold; background: linear-gradient(to right, #00d4ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .natija-box p { color: #6b7280; margin: 10px 0 20px; font-size: 16px; }
+        /* OYIN 1 */
+        .sql-savol { font-size: 15px; color: #6b7280; margin-bottom: 15px; }
+        .sql-kod { background: #f0f0f0; border: 1px solid #bfdbfe; border-radius: 8px; padding: 15px; font-family: monospace; color: #059669; font-size: 16px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .sql-input { background: #f3f4f6; border: 2px solid #00d4ff; border-radius: 6px; padding: 4px 10px; color: #1a1a2e; font-family: monospace; font-size: 16px; width: 110px; outline: none; text-align: center; }
+        .variantlar-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .variant-chip { background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; cursor: pointer; font-size: 14px; transition: all 0.2s; font-family: monospace; }
+        .variant-chip:hover { background: #dbeafe; border-color: #3b82f6; color: #00d4ff; }
+        .variant-chip.ishlatildi { opacity: 0.3; cursor: not-allowed; }
+        /* OYIN 2 */
+        .drag-instructions { color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+        .ustunlar-havuzi { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; min-height: 50px; }
+        .drag-item { background: linear-gradient(135deg, #dbeafe, #f3e8ff); border: 1px solid #00d4ff; border-radius: 8px; padding: 8px 15px; cursor: grab; font-size: 14px; font-family: monospace; color: #00d4ff; }
+        .jadval-zona { border: 2px dashed #ffffff22; border-radius: 12px; padding: 20px; min-height: 80px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .jadval-zona.dragover { border-color: #3b82f6; background: #eff6ff; }
+        /* OYIN 3 */
+        .timer-bar { background: #f3f4f6; border-radius: 10px; height: 10px; margin-bottom: 20px; overflow: hidden; }
+        .timer-fill { height: 100%; background: linear-gradient(135deg, #00ff88, #00d4ff); border-radius: 10px; transition: width 0.1s linear; }
+        .timer-text { text-align: center; font-size: 28px; font-weight: bold; color: #00d4ff; margin-bottom: 10px; }
+        .score-text { text-align: right; font-size: 16px; color: #a855f7; margin-bottom: 20px; }
+        .tez-savol { font-size: 18px; font-weight: 600; margin-bottom: 15px; line-height: 1.5; }
+        .tez-kod { background: #f0f0f0; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; font-family: monospace; color: #059669; font-size: 14px; margin-bottom: 15px; display: none; }
+        .tez-variantlar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .tez-variant { background: #f3f4f6; border: 1px solid #ffffff15; border-radius: 10px; padding: 14px; cursor: pointer; font-size: 14px; transition: all 0.2s; text-align: center; }
+        .tez-variant:hover { background: #eff6ff; border-color: #3b82f6; }
+        .tez-variant.togri { background: #00ff8822; border-color: #059669; color: #059669; }
+        .tez-variant.noto { background: #ff444422; border-color: #ff4444; color: #ff4444; }
+        footer { text-align: center; padding: 30px; color: #6b7280; border-top: 1px solid #e5e7eb; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>DB Academy</h1>
+    <nav>
+        <a href="index.html">Bosh sahifa</a>
+        <a href="darslar.html">Darslar</a>
+        <a href="amaliyot.html">Amaliyot</a>
+        <a href="test.html">Test</a>
+        <a href="oyin.html" class="active">Oyinlar</a>
+    </nav>
+</header>
+
+<div class="page-title">
+    <h2>Interaktiv Oyinlar</h2>
+    <p>Oynab organing - SQL ni qiziqarli usulda ozlashtiring!</p>
+</div>
+
+<div class="oyin-tanlash">
+    <div class="oyin-btn active" onclick="oyinTanlash(1, this)">
+        <div class="icon">🎯</div>
+        <h3>SQL Toldirish</h3>
+        <p>Bosh joylarni togri soz bilan toldiring</p>
+    </div>
+    <div class="oyin-btn" onclick="oyinTanlash(2, this)">
+        <div class="icon">🧩</div>
+        <h3>Jadval Qurish</h3>
+        <p>Ustunlarni sudrab togri joyga qoying</p>
+    </div>
+    <div class="oyin-btn" onclick="oyinTanlash(3, this)">
+        <div class="icon">⏱️</div>
+        <h3>Tezkor Javob</h3>
+        <p>15 soniya ichida togri javobni toping!</p>
+    </div>
+</div>
+
+<!-- OYIN 1 -->
+<div class="oyin-maydoni show" id="oyin1">
+    <div class="panel" id="o1panel">
+        <h3>SQL Sorovni Toldiring</h3>
+        <div id="o1savol" class="sql-savol"></div>
+        <div class="sql-kod" id="o1kod"></div>
+        <p style="color: #6b7280;font-size:13px;margin-bottom:10px;">Variantlardan birini bosing:</p>
+        <div class="variantlar-grid" id="o1variantlar"></div>
+        <div class="xabar" id="o1xabar"></div>
+        <button class="btn btn-full" onclick="o1Keyingi()">Keyingi</button>
+    </div>
+    <div class="natija-box" id="o1natija">
+        <div style="font-size:50px;">🎯</div>
+        <div class="natija-ball" id="o1ball"></div>
+        <p id="o1matn"></p>
+        <button class="btn" onclick="o1Boshlash()">Qayta oynash</button>
+    </div>
+</div>
+
+<!-- OYIN 2 -->
+<div class="oyin-maydoni" id="oyin2">
+    <div class="panel">
+        <h3>Jadval Ustunlarini Joylashtiring</h3>
+        <p class="drag-instructions">Ustun nomlarini sudrab "talabalar" jadvaliga joylashtiring. Noto`g`ri ustunlar ham bor - ularni qo`shmang!</p>
+        <div class="ustunlar-havuzi" id="havuz"></div>
+        <p style="color: #6b7280;font-size:13px;margin-bottom:8px;">talabalar jadvali:</p>
+        <div class="jadval-zona" id="jadvalZona">
+            <span style="color: #6b7280;font-size:13px;">Ustunlarni shu yerga tashlang...</span>
+        </div>
+        <div class="xabar" id="o2xabar"></div>
+        <button class="btn btn-full" onclick="o2Tekshir()">Tekshirish</button>
+        <button class="btn btn-full" style="background: #f3f4f6;margin-top:8px;" onclick="o2Boshlash()">Qayta boshlash</button>
+    </div>
+    <div class="natija-box" id="o2natija">
+        <div style="font-size:50px;">🧩</div>
+        <div class="natija-ball" id="o2ball"></div>
+        <p id="o2matn"></p>
+        <button class="btn" onclick="o2Boshlash()">Qayta oynash</button>
+    </div>
+</div>
+
+<!-- OYIN 3 -->
+<div class="oyin-maydoni" id="oyin3">
+    <div class="panel" id="o3panel">
+        <div class="score-text">Ball: <span id="o3ball">0</span></div>
+        <div class="timer-text" id="o3timer">15</div>
+        <div class="timer-bar"><div class="timer-fill" id="o3timerFill" style="width:100%"></div></div>
+        <div class="tez-savol" id="o3savol">Oyinni boshlash uchun tugmani bosing</div>
+        <div class="tez-kod" id="o3kod"></div>
+        <div class="tez-variantlar" id="o3variantlar"></div>
+    </div>
+    <div class="natija-box" id="o3natija">
+        <div style="font-size:50px;">⏱️</div>
+        <div class="natija-ball" id="o3ballNatija"></div>
+        <p id="o3matn"></p>
+    </div>
+    <button class="btn btn-full" onclick="o3Boshlash()" id="o3startBtn">Oyinni Boshlash</button>
+</div>
+
+<footer><p>2026 DB Academy - Malumotlar Bazasi Oquv Platformasi</p></footer>
+
+<script>
+function oyinTanlash(n, el) {
+    document.querySelectorAll('.oyin-btn').forEach(function(b) { b.classList.remove('active'); });
+    el.classList.add('active');
+    document.querySelectorAll('.oyin-maydoni').forEach(function(m) { m.classList.remove('show'); });
+    document.getElementById('oyin' + n).classList.add('show');
+}
+
+// ===== OYIN 1 =====
+var o1savollar = [
+    { savol: "Jadvaldan BARCHA malumotlarni olish:", oldin: "SELECT ", keyin: " FROM talabalar", javob: "*", variantlar: ["*", "ALL", "EVERY", "DATA"] },
+    { savol: "Bahosi 80 dan katta talabalarni olish:", oldin: "SELECT * FROM talabalar ", keyin: " baho > 80", javob: "WHERE", variantlar: ["WHERE", "WHEN", "FILTER", "IF"] },
+    { savol: "Yangi jadval yaratish:", oldin: "", keyin: " TABLE talabalar (...)", javob: "CREATE", variantlar: ["CREATE", "MAKE", "NEW", "BUILD"] },
+    { savol: "Jadvalga yangi qator qoshish:", oldin: "", keyin: " INTO talabalar VALUES (...)", javob: "INSERT", variantlar: ["INSERT", "ADD", "PUT", "PUSH"] },
+    { savol: "Malumotlarni yangilash:", oldin: "", keyin: " talabalar SET baho=95 WHERE id=1", javob: "UPDATE", variantlar: ["UPDATE", "CHANGE", "MODIFY", "EDIT"] }
+];
+var o1joriy = 0, o1togri = 0;
+
+function o1Boshlash() {
+    o1joriy = 0; o1togri = 0;
+    document.getElementById('o1natija').classList.remove('show');
+    document.getElementById('o1panel').style.display = 'block';
+    o1Korsatish();
+}
+
+function o1Korsatish() {
+    var s = o1savollar[o1joriy];
+    document.getElementById('o1savol').textContent = (o1joriy+1) + '/5 - ' + s.savol;
+    document.getElementById('o1kod').innerHTML = s.oldin + '<input class="sql-input" id="o1input" placeholder="???" readonly> ' + s.keyin;
+    var varEl = document.getElementById('o1variantlar');
+    varEl.innerHTML = '';
+    var aralash = s.variantlar.slice().sort(function() { return Math.random()-0.5; });
+    aralash.forEach(function(v) {
+        var chip = document.createElement('div');
+        chip.className = 'variant-chip';
+        chip.textContent = v;
+        chip.onclick = function() {
+            if (chip.classList.contains('ishlatildi')) return;
+            document.getElementById('o1input').value = v;
+            varEl.querySelectorAll('.variant-chip').forEach(function(c) { c.classList.add('ishlatildi'); });
+            var xabar = document.getElementById('o1xabar');
+            if (v === s.javob) {
+                o1togri++;
+                xabar.className = 'xabar success show';
+                xabar.textContent = 'Togri! Ajoyib!';
+            } else {
+                xabar.className = 'xabar error show';
+                xabar.textContent = 'Notogri. Togri javob: ' + s.javob;
+            }
+        };
+        varEl.appendChild(chip);
+    });
+    document.getElementById('o1xabar').className = 'xabar';
+}
+
+function o1Keyingi() {
+    o1joriy++;
+    if (o1joriy >= o1savollar.length) {
+        document.getElementById('o1panel').style.display = 'none';
+        document.getElementById('o1ball').textContent = o1togri + '/' + o1savollar.length;
+        document.getElementById('o1matn').textContent = o1togri >= 4 ? 'Ajoyib! SQL ni yaxshi bilasiz!' : 'Davom eting, mashq qiling!';
+        document.getElementById('o1natija').classList.add('show');
+    } else { o1Korsatish(); }
+}
+o1Boshlash();
+
+// ===== OYIN 2 =====
+var togriUstunlar = ['id', 'ism', 'familiya', 'yosh', 'guruh', 'baho'];
+var qoshimcha = ['narx', 'manzil', 'telefon'];
+
+function o2Boshlash() {
+    document.getElementById('o2natija').classList.remove('show');
+    document.getElementById('o2xabar').className = 'xabar';
+    var havuz = document.getElementById('havuz');
+    havuz.innerHTML = '';
+    var zona = document.getElementById('jadvalZona');
+    zona.innerHTML = '<span style="color: #6b7280;font-size:13px;">Ustunlarni shu yerga tashlang...</span>';
+    var hammasi = togriUstunlar.concat(qoshimcha).sort(function() { return Math.random()-0.5; });
+    hammasi.forEach(function(u) {
+        var item = yaratItem(u, havuz, zona);
+        havuz.appendChild(item);
+    });
+    zona.addEventListener('dragover', function(e) { e.preventDefault(); zona.classList.add('dragover'); });
+    zona.addEventListener('dragleave', function() { zona.classList.remove('dragover'); });
+    zona.addEventListener('drop', function(e) {
+        e.preventDefault();
+        zona.classList.remove('dragover');
+        var u = e.dataTransfer.getData('text');
+        if (zona.querySelector('[data-u="'+u+'"]')) return;
+        var pl = zona.querySelector('span');
+        if (pl) pl.remove();
+        var ni = yaratItemZona(u, zona, havuz);
+        zona.appendChild(ni);
+        var hi = havuz.querySelector('[data-u="'+u+'"]');
+        if (hi) hi.remove();
+    });
+}
+
+function yaratItem(u, havuz, zona) {
+    var item = document.createElement('div');
+    item.className = 'drag-item';
+    item.textContent = u;
+    item.draggable = true;
+    item.dataset.u = u;
+    item.addEventListener('dragstart', function(e) { e.dataTransfer.setData('text', u); });
+    return item;
+}
+
+function yaratItemZona(u, zona, havuz) {
+    var item = document.createElement('div');
+    item.className = 'drag-item';
+    item.textContent = u;
+    item.draggable = true;
+    item.dataset.u = u;
+    item.addEventListener('dragstart', function(e) { e.dataTransfer.setData('text', u); });
+    item.addEventListener('dblclick', function() {
+        item.remove();
+        if (zona.children.length === 0) zona.innerHTML = '<span style="color: #6b7280;font-size:13px;">Ustunlarni shu yerga tashlang...</span>';
+        var ni = yaratItem(u, havuz, zona);
+        havuz.appendChild(ni);
+    });
+    return item;
+}
+
+function o2Tekshir() {
+    var zona = document.getElementById('jadvalZona');
+    var tanlangan = Array.from(zona.querySelectorAll('.drag-item')).map(function(i) { return i.dataset.u; });
+    var togri = togriUstunlar.filter(function(u) { return tanlangan.indexOf(u) !== -1; }).length;
+    var noto = tanlangan.filter(function(u) { return togriUstunlar.indexOf(u) === -1; }).length;
+    var foiz = Math.round((togri / togriUstunlar.length) * 100);
+    document.getElementById('o2ball').textContent = foiz + '%';
+    document.getElementById('o2matn').textContent = togri + ' ta togri, ' + noto + ' ta notogri. ' + (foiz === 100 ? 'Mukammal!' : 'Qayta urining!');
+    document.getElementById('o2natija').classList.add('show');
+}
+o2Boshlash();
+
+// ===== OYIN 3 =====
+var o3savollar = [
+    { savol: "Barcha malumotlarni olish?", kod: null, variantlar: ["SELECT *", "GET ALL", "SHOW *", "FETCH"], togri: 0 },
+    { savol: "Jadval yaratish buyrug`i?", kod: null, variantlar: ["NEW TABLE", "CREATE TABLE", "MAKE TABLE", "BUILD TABLE"], togri: 1 },
+    { savol: "Bu sorov nima qiladi?", kod: "SELECT * FROM t WHERE yosh > 18", variantlar: ["Yoshni filtrlaydi", "Barchani oladi", "18 yoshlilar", "Yoshni ozgartiradi"], togri: 0 },
+    { savol: "Malumot qoshish buyrug`i?", kod: null, variantlar: ["ADD INTO", "INSERT INTO", "PUT INTO", "PUSH INTO"], togri: 1 },
+    { savol: "Malumot ochirish buyrug`i?", kod: null, variantlar: ["REMOVE", "ERASE", "DELETE", "CLEAR"], togri: 2 },
+    { savol: "Bu nima qiladi?", kod: "UPDATE t SET baho=95 WHERE id=1", variantlar: ["Ochiradi", "Qoshadi", "Yangilaydi", "Korsatadi"], togri: 2 },
+    { savol: "WHERE kalit sozi nima uchun?", kod: null, variantlar: ["Jadval yaratish", "Tartiblash", "Filtrlash", "Hisoblash"], togri: 2 },
+    { savol: "SQL - bu nima?", kod: null, variantlar: ["Dasturlash tili", "Sorovlar tili", "Operatsion tizim", "Brauzer"], togri: 1 }
+];
+var o3ball2 = 0, o3timer2 = null, o3qolgan = 15, o3joriy = 0, o3javobBerildi = false;
+
+function o3Boshlash() {
+    o3ball2 = 0; o3joriy = 0;
+    document.getElementById('o3natija').classList.remove('show');
+    document.getElementById('o3startBtn').textContent = 'Qayta oynash';
+    document.getElementById('o3ball').textContent = '0';
+    o3Korsatish();
+}
+
+function o3Korsatish() {
+    if (o3joriy >= o3savollar.length) { o3Tugadi(); return; }
+    var s = o3savollar[o3joriy];
+    o3javobBerildi = false;
+    o3qolgan = 15;
+    document.getElementById('o3savol').textContent = (o3joriy+1) + '/8 - ' + s.savol;
+    var kodEl = document.getElementById('o3kod');
+    if (s.kod) { kodEl.textContent = s.kod; kodEl.style.display = 'block'; }
+    else { kodEl.style.display = 'none'; }
+    var varEl = document.getElementById('o3variantlar');
+    varEl.innerHTML = '';
+    s.variantlar.forEach(function(v, i) {
+        var btn = document.createElement('div');
+        btn.className = 'tez-variant';
+        btn.textContent = v;
+        btn.onclick = function() { o3Tanlash(i, btn, s.togri); };
+        varEl.appendChild(btn);
+    });
+    clearInterval(o3timer2);
+    o3timer2 = setInterval(function() {
+        o3qolgan--;
+        document.getElementById('o3timer').textContent = o3qolgan;
+        document.getElementById('o3timerFill').style.width = (o3qolgan/15*100) + '%';
+        if (o3qolgan <= 5) document.getElementById('o3timerFill').style.background = 'linear-gradient(135deg,#ff4444,#ff8800)';
+        else document.getElementById('o3timerFill').style.background = 'linear-gradient(135deg,#00ff88,#00d4ff)';
+        if (o3qolgan <= 0) {
+            clearInterval(o3timer2);
+            if (!o3javobBerildi) {
+                o3javobBerildi = true;
+                document.querySelectorAll('.tez-variant')[s.togri].classList.add('togri');
+                setTimeout(function() { o3joriy++; o3Korsatish(); }, 1000);
+            }
+        }
+    }, 1000);
+}
+
+function o3Tanlash(index, btn, togriIndex) {
+    if (o3javobBerildi) return;
+    o3javobBerildi = true;
+    clearInterval(o3timer2);
+    document.querySelectorAll('.tez-variant')[togriIndex].classList.add('togri');
+    if (index === togriIndex) {
+        o3ball2 += o3qolgan * 10;
+        document.getElementById('o3ball').textContent = o3ball2;
+    } else { btn.classList.add('noto'); }
+    setTimeout(function() { o3joriy++; o3Korsatish(); }, 1000);
+}
+
+function o3Tugadi() {
+    clearInterval(o3timer2);
+    document.getElementById('o3ballNatija').textContent = o3ball2 + ' ball';
+    document.getElementById('o3matn').textContent = o3ball2 >= 800 ? 'Muhtasham! Tezkor SQL ustasi!' : o3ball2 >= 400 ? 'Yaxshi natija!' : 'Mashq qiling!';
+    document.getElementById('o3natija').classList.add('show');
+}
+</script>
+</body>
+</html>

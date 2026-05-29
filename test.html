@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - DB Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; color: #1a1a2e; }
+        header {
+            background: linear-gradient(135deg, #1a56db, #1e3a8a);
+            padding: 15px 40px; display: flex;
+            justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        header h1 { font-size: 22px; color: #00d4ff; }
+        nav a { color: #ffffff; text-decoration: none; margin-left: 25px; font-size: 15px; transition: color 0.3s; }
+        nav a:hover { color: #00d4ff; }
+        nav a.active { color: #00d4ff; border-bottom: 2px solid #00d4ff; }
+        .page-title { text-align: center; padding: 40px 20px 20px; }
+        .page-title h2 {
+            font-size: 36px;
+            background: linear-gradient(to right, #00d4ff, #a855f7);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .page-title p { color: #6b7280; margin-top: 8px; }
+        .test-container { max-width: 750px; margin: 30px auto; padding: 0 30px 60px; }
+        .progress-text { text-align: right; color: #6b7280; font-size: 13px; margin-bottom: 8px; }
+        .progress-bar { background: #f3f4f6; border-radius: 10px; height: 8px; margin-bottom: 30px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(135deg, #00d4ff, #a855f7); border-radius: 10px; transition: width 0.5s; }
+        .savol-card {
+            background: #ffffff;
+            border: 1px solid #93c5fd; border-radius: 16px; padding: 35px; margin-bottom: 20px;
+        }
+        .savol-num { color: #00d4ff; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .savol-text { font-size: 20px; font-weight: 600; margin-bottom: 25px; line-height: 1.5; }
+        .savol-code {
+            background: #f0f0f0; border: 1px solid #bfdbfe; border-radius: 8px;
+            padding: 12px 15px; font-family: 'Courier New', monospace;
+            color: #059669; font-size: 14px; margin-bottom: 20px;
+        }
+        .variantlar { display: flex; flex-direction: column; gap: 12px; }
+        .variant {
+            background: #f3f4f6; border: 1px solid #ffffff15; border-radius: 10px;
+            padding: 14px 20px; cursor: pointer; font-size: 15px; transition: all 0.2s;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .variant:hover { background: #eff6ff; border-color: #3b82f644; }
+        .variant.togri { background: #00ff8822; border-color: #059669; color: #059669; }
+        .variant.noto { background: #ff444422; border-color: #ff4444; color: #ff4444; }
+        .variant-harf {
+            width: 28px; height: 28px; border-radius: 50%; background: #f3f4f6;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: bold; flex-shrink: 0;
+        }
+        .izoh { margin-top: 15px; padding: 12px 15px; border-radius: 8px; font-size: 14px; display: none; }
+        .izoh.show { display: block; }
+        .izoh.togri { background: #00ff8811; color: #059669; border: 1px solid #00ff8833; }
+        .izoh.noto { background: #ff444411; color: #ff8888; border: 1px solid #ff444433; }
+        .btn-keyingi {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, #00d4ff, #a855f7);
+            color: #1a1a2e; border: none; border-radius: 10px;
+            font-size: 16px; cursor: pointer; margin-top: 15px; display: none; transition: transform 0.2s;
+        }
+        .btn-keyingi:hover { transform: scale(1.02); }
+        .btn-keyingi.show { display: block; }
+        .natija-sahifa {
+            display: none; text-align: center;
+            background: #ffffff;
+            border: 1px solid #93c5fd; border-radius: 16px; padding: 50px 35px;
+        }
+        .natija-sahifa.show { display: block; }
+        .natija-ball {
+            font-size: 72px; font-weight: bold;
+            background: linear-gradient(to right, #00d4ff, #a855f7);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .natija-text { color: #6b7280; font-size: 18px; margin: 15px 0 30px; }
+        .btn-qayta {
+            padding: 14px 40px; background: linear-gradient(135deg, #00d4ff, #a855f7);
+            color: #1a1a2e; border: none; border-radius: 30px; font-size: 16px; cursor: pointer;
+        }
+        footer { text-align: center; padding: 30px; color: #6b7280; border-top: 1px solid #e5e7eb; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🗄️ DB Academy</h1>
+    <nav>
+        <a href="index.html">Bosh sahifa</a>
+        <a href="darslar.html">Darslar</a>
+        <a href="amaliyot.html">Amaliyot</a>
+        <a href="test.html" class="active">Test</a>
+    </nav>
+</header>
+
+<div class="page-title">
+    <h2>🏆 Bilim Testi</h2>
+    <p>SQL bilimlaringizni tekshiring!</p>
+</div>
+
+<div class="test-container">
+    <div class="progress-text" id="progressText">Savol 1 / 6</div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+
+    <div class="savol-card" id="savolCard">
+        <div class="savol-num" id="savolNum">SAVOL 1</div>
+        <div class="savol-text" id="savolText"></div>
+        <div class="savol-code" id="savolCode" style="display:none;"></div>
+        <div class="variantlar" id="variantlar"></div>
+        <div class="izoh" id="izoh"></div>
+    </div>
+
+    <button class="btn-keyingi" id="btnKeyingi" onclick="keyingi()">Keyingi savol →</button>
+
+    <div class="natija-sahifa" id="natijaSahifa">
+        <div style="font-size:60px; margin-bottom:20px;">🏆</div>
+        <div class="natija-ball" id="natijaBall"></div>
+        <div class="natija-text" id="natijaText"></div>
+        <button class="btn-qayta" onclick="qaytaBoshlash()">🔄 Qayta boshlash</button>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 DB Academy — Ma'lumotlar Bazasi O'quv Platformasi</p>
+</footer>
+
+<script>
+const savollar = [
+    {
+        savol: "SQL qisqartmasi nimani anglatadi?",
+        kod: null,
+        variantlar: ["Structured Query Language", "Simple Question Logic", "System Query List", "Structured Question Logic"],
+        togri: 0,
+        izoh: "SQL — Structured Query Language, ya'ni Tuzilgan Sorovlar Tili degani."
+    },
+    {
+        savol: "Jadvaldan barcha malumotlarni olish uchun qaysi sorov ishlatiladi?",
+        kod: "SELECT ___ FROM talabalar",
+        variantlar: ["SELECT ALL", "SELECT *", "SELECT EVERY", "GET ALL"],
+        togri: 1,
+        izoh: "SELECT * — jadvalning barcha ustunlarini tanlaydi."
+    },
+    {
+        savol: "Quyidagi sorov nima qiladi?",
+        kod: "SELECT * FROM talabalar WHERE baho > 80",
+        variantlar: ["Bahosi 80 ga teng", "Bahosi 80 dan kichik", "Bahosi 80 dan katta", "Barchasi"],
+        togri: 2,
+        izoh: "WHERE baho > 80 — bahosi 80 dan katta talabalarni filtrlaydi."
+    },
+    {
+        savol: "Yangi jadval yaratish uchun qaysi buyruq ishlatiladi?",
+        kod: null,
+        variantlar: ["NEW TABLE", "MAKE TABLE", "CREATE TABLE", "BUILD TABLE"],
+        togri: 2,
+        izoh: "CREATE TABLE — SQL da yangi jadval yaratish buyrug'i."
+    },
+    {
+        savol: "Jadvalga yangi qator qoshish uchun qaysi buyruq ishlatiladi?",
+        kod: "___ INTO talabalar VALUES (7, 'Kamol', 20)",
+        variantlar: ["ADD", "INSERT", "PUT", "APPEND"],
+        togri: 1,
+        izoh: "INSERT INTO — jadvalga yangi malumot qoshish uchun ishlatiladi."
+    },
+    {
+        savol: "Malumotlarni yangilash uchun qaysi buyruq ishlatiladi?",
+        kod: "___ talabalar SET baho = 95 WHERE id = 1",
+        variantlar: ["CHANGE", "MODIFY", "UPDATE", "EDIT"],
+        togri: 2,
+        izoh: "UPDATE — mavjud malumotlarni yangilash uchun ishlatiladigan buyruq."
+    }
+];
+
+let joriy = 0;
+let togri = 0;
+let javobBerildi = false;
+
+function korsatish() {
+    const s = savollar[joriy];
+    javobBerildi = false;
+
+    document.getElementById('savolNum').textContent = 'SAVOL ' + (joriy + 1);
+    document.getElementById('savolText').textContent = s.savol;
+    document.getElementById('progressText').textContent = 'Savol ' + (joriy + 1) + ' / ' + savollar.length;
+    document.getElementById('progressFill').style.width = ((joriy / savollar.length) * 100) + '%';
+
+    const kodEl = document.getElementById('savolCode');
+    if (s.kod) {
+        kodEl.textContent = s.kod;
+        kodEl.style.display = 'block';
+    } else {
+        kodEl.style.display = 'none';
+    }
+
+    const varEl = document.getElementById('variantlar');
+    varEl.innerHTML = '';
+    const harflar = ['A', 'B', 'C', 'D'];
+
+    s.variantlar.forEach(function(v, i) {
+        const btn = document.createElement('div');
+        btn.className = 'variant';
+        btn.innerHTML = '<span class="variant-harf">' + harflar[i] + '</span> ' + v;
+        btn.onclick = function() { tanlash(i, btn); };
+        varEl.appendChild(btn);
+    });
+
+    document.getElementById('izoh').className = 'izoh';
+    document.getElementById('izoh').textContent = '';
+    document.getElementById('btnKeyingi').className = 'btn-keyingi';
+}
+
+function tanlash(index, btn) {
+    if (javobBerildi) return;
+    javobBerildi = true;
+
+    const s = savollar[joriy];
+    const variantlar = document.querySelectorAll('.variant');
+    const izohEl = document.getElementById('izoh');
+
+    variantlar.forEach(function(v, i) {
+        if (i === s.togri) v.classList.add('togri');
+        else if (i === index) v.classList.add('noto');
+    });
+
+    if (index === s.togri) {
+        togri++;
+        izohEl.className = 'izoh togri show';
+    } else {
+        izohEl.className = 'izoh noto show';
+    }
+
+    izohEl.textContent = s.izoh;
+    document.getElementById('btnKeyingi').className = 'btn-keyingi show';
+
+    if (joriy === savollar.length - 1) {
+        document.getElementById('btnKeyingi').textContent = "Natijani ko'rish";
+    }
+}
+
+function keyingi() {
+    joriy++;
+    if (joriy >= savollar.length) {
+        natija();
+    } else {
+        korsatish();
+    }
+}
+
+function natija() {
+    document.getElementById('savolCard').style.display = 'none';
+    document.getElementById('btnKeyingi').style.display = 'none';
+    document.getElementById('progressText').style.display = 'none';
+    document.querySelector('.progress-bar').style.display = 'none';
+
+    const foiz = Math.round((togri / savollar.length) * 100);
+    document.getElementById('natijaBall').textContent = foiz + '%';
+
+    let matn = '';
+    if (foiz === 100) matn = 'Mukammal! Siz SQL ustasisiz!';
+    else if (foiz >= 80) matn = 'Ajoyib natija! Davom eting!';
+    else if (foiz >= 60) matn = 'Yaxshi! Ozroq mashq qiling!';
+    else matn = 'Qayta organing va yana sinab koring!';
+
+    document.getElementById('natijaText').textContent = togri + ' ta togri / ' + savollar.length + ' ta. ' + matn;
+    document.getElementById('natijaSahifa').className = 'natija-sahifa show';
+}
+
+function qaytaBoshlash() {
+    joriy = 0;
+    togri = 0;
+    document.getElementById('savolCard').style.display = 'block';
+    document.getElementById('progressText').style.display = 'block';
+    document.querySelector('.progress-bar').style.display = 'block';
+    document.getElementById('natijaSahifa').className = 'natija-sahifa';
+    korsatish();
+}
+
+korsatish();
+</script>
+
+</body>
+</html>

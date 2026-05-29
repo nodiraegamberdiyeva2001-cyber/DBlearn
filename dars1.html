@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-Dars - DB Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; color: #1a1a2e; }
+        header {
+            background: linear-gradient(135deg, #1a56db, #1e3a8a);
+            padding: 15px 40px; display: flex;
+            justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        header h1 { font-size: 22px; color: #00d4ff; }
+        nav a { color: #ffffff; text-decoration: none; margin-left: 25px; font-size: 15px; }
+        nav a:hover { color: #00d4ff; }
+
+        .dars-container { max-width: 860px; margin: 40px auto; padding: 0 30px 60px; }
+
+        .dars-header {
+            background: #ffffff;
+            border: 1px solid #93c5fd; border-radius: 16px;
+            padding: 35px; margin-bottom: 25px;
+        }
+        .dars-num { color: #00d4ff; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .dars-header h2 { font-size: 30px; margin-bottom: 10px; }
+        .dars-header p { color: #6b7280; font-size: 15px; line-height: 1.7; }
+
+        .dars-bolim {
+            background: #ffffff;
+            border: 1px solid #93c5fd; border-radius: 16px;
+            padding: 30px; margin-bottom: 20px;
+        }
+        .dars-bolim h3 { color: #00d4ff; font-size: 18px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #00d4ff22; }
+        .dars-bolim p { color: #4b5563; font-size: 15px; line-height: 1.8; margin-bottom: 12px; }
+
+        .info-box {
+            background: #eff6ff; border: 1px solid #93c5fd;
+            border-radius: 10px; padding: 15px 20px; margin: 15px 0;
+            color: #00d4ff; font-size: 14px; line-height: 1.7;
+        }
+        .warning-box {
+            background: #ff880011; border: 1px solid #ff880033;
+            border-radius: 10px; padding: 15px 20px; margin: 15px 0;
+            color: #ff8800; font-size: 14px; line-height: 1.7;
+        }
+
+        .misollar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .misol-card {
+            background: #f0f0f0; border: 1px solid #bfdbfe;
+            border-radius: 10px; padding: 15px; text-align: center;
+        }
+        .misol-card .misol-icon { font-size: 35px; margin-bottom: 8px; }
+        .misol-card h4 { color: #00d4ff; font-size: 14px; margin-bottom: 6px; }
+        .misol-card p { color: #6b7280; font-size: 13px; }
+
+        .jadval-namuna { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        .jadval-namuna th { background: #dbeafe; color: #00d4ff; padding: 10px 15px; border: 1px solid #93c5fd; text-align: left; }
+        .jadval-namuna td { padding: 10px 15px; border: 1px solid #e5e7eb; color: #374151; }
+        .jadval-namuna tr:hover td { background: #f9fafb; }
+
+        .navigatsiya { display: flex; justify-content: space-between; margin-top: 30px; }
+        .nav-btn {
+            padding: 12px 25px; border: none; border-radius: 10px;
+            font-size: 15px; cursor: pointer; transition: transform 0.2s;
+            background: linear-gradient(135deg, #00d4ff, #a855f7); color: #1a1a2e;
+            text-decoration: none; display: inline-block;
+        }
+        .nav-btn:hover { transform: scale(1.03); }
+        .nav-btn.orta { background: #f3f4f6; }
+
+        footer { text-align: center; padding: 30px; color: #6b7280; border-top: 1px solid #e5e7eb; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🗄️ DB Academy</h1>
+    <nav>
+        <a href="index.html">Bosh sahifa</a>
+        <a href="darslar.html">Darslar</a>
+        <a href="amaliyot.html">Amaliyot</a>
+        <a href="test.html">Test</a>
+        <a href="oyin.html">Oyinlar</a>
+    </nav>
+</header>
+
+<div class="dars-container">
+
+    <div class="dars-header">
+        <div class="dars-num">📚 1-DARS</div>
+        <h2>Malumotlar Bazasiga Kirish</h2>
+        <p>Bu darsda malumotlar bazasi nima ekanligini, u qanday ishlashini va hayotimizda qayerda ishlatilishini bilib olamiz.</p>
+    </div>
+
+    <!-- BOLIM 1 -->
+    <div class="dars-bolim">
+        <h3>💡 Malumotlar Bazasi Nima?</h3>
+        <p>Malumotlar bazasi (MB) — bu tartib bilan saqlangan malumotlar to`plami. Uni katta bir shkaf deb tasavvur qiling — ichida juda ko`p tortmalar bor, har bir tortmada esa kerakli hujjatlar joylashgan.</p>
+        <p>Kompyuterda esa bu malumotlar jadvallar ko`rinishida saqlanadi — xuddi Excel daftaridek, lekin ancha kuchli va tez!</p>
+        <div class="info-box">
+            💡 <strong>Oddiy ta`rif:</strong> Malumotlar bazasi = Ko`p jadvallar + Ular orasidagi aloqalar + Ularni boshqarish tizimi
+        </div>
+    </div>
+
+    <!-- BOLIM 2 -->
+    <div class="dars-bolim">
+        <h3>🌍 Hayotda Qayerda Ishlatiladi?</h3>
+        <p>Siz har kuni malumotlar bazasi bilan ishlaysiz — faqat sezmaysiz!</p>
+        <div class="misollar-grid">
+            <div class="misol-card">
+                <div class="misol-icon">🛒</div>
+                <h4>Online Do`kon</h4>
+                <p>Mahsulotlar, narxlar, buyurtmalar — hammasi MB da</p>
+            </div>
+            <div class="misol-card">
+                <div class="misol-icon">🏦</div>
+                <h4>Bank</h4>
+                <p>Hisoblar, o`tkazmalar, balans — MB da saqlanadi</p>
+            </div>
+            <div class="misol-card">
+                <div class="misol-icon">🏥</div>
+                <h4>Klinika</h4>
+                <p>Bemorlar, davolash tarixi — MB da</p>
+            </div>
+            <div class="misol-card">
+                <div class="misol-icon">🎓</div>
+                <h4>Universitet</h4>
+                <p>Talabalar, baholar, jadvallar — MB da</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOLIM 3 -->
+    <div class="dars-bolim">
+        <h3>📋 Jadval Ko`rinishi</h3>
+        <p>MB dagi malumotlar quyidagicha jadval ko`rinishida saqlanadi:</p>
+        <table class="jadval-namuna">
+            <thead>
+                <tr><th>id</th><th>ism</th><th>familiya</th><th>yosh</th><th>guruh</th><th>baho</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Alisher</td><td>Karimov</td><td>20</td><td>CS-101</td><td>95</td></tr>
+                <tr><td>2</td><td>Malika</td><td>Yusupova</td><td>21</td><td>CS-101</td><td>88</td></tr>
+                <tr><td>3</td><td>Bobur</td><td>Toshmatov</td><td>19</td><td>CS-102</td><td>72</td></tr>
+            </tbody>
+        </table>
+        <div class="warning-box">
+            ⚠️ <strong>Eslab qoling:</strong> Har bir qator — bitta yozuv. Har bir ustun — bitta xususiyat. Bu tuzilmani yaxshi tushunish juda muhim!
+        </div>
+    </div>
+
+    <!-- BOLIM 4 -->
+    <div class="dars-bolim">
+        <h3>🗄️ Mashhur MB Turlari</h3>
+        <p><strong style="color:#00d4ff;">MySQL</strong> — eng ko`p ishlatiladigan bepul MB tizimi. Veb-saytlarda keng qollaniladi.</p>
+        <p><strong style="color:#00d4ff;">PostgreSQL</strong> — kuchli va ishonchli. Katta loyihalarda ishlatiladi.</p>
+        <p><strong style="color:#00d4ff;">SQLite</strong> — yengil va qulay. Mobil ilovalarda ishlatiladi.</p>
+        <p><strong style="color:#00d4ff;">Oracle</strong> — eng kuchli tijorat MB tizimi. Banklarda ishlatiladi.</p>
+        <div class="info-box">
+            💡 Biz o`rganadigan <strong>SQL</strong> tili — bu MB larning hammasi bilan ishlash uchun universal til!
+        </div>
+    </div>
+
+    <!-- NAVIGATSIYA -->
+    <div class="navigatsiya">
+        <a href="darslar.html" class="nav-btn orta">← Darslar</a>
+        <a href="dars2.html" class="nav-btn">Keyingi dars →</a>
+    </div>
+
+</div>
+
+<footer><p>2026 DB Academy - Malumotlar Bazasi Oquv Platformasi</p></footer>
+
+</body>
+</html>

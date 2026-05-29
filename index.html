@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma'lumotlar Bazasi O'quv Platformasi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #1a56db, #1e3a8a);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 22px;
+            color: #00d4ff;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: #00d4ff; }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 80px;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #00d4ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+
+        .hero button {
+            background: linear-gradient(135deg, #00d4ff, #a855f7);
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .hero button:hover { transform: scale(1.05); }
+
+        /* CARDS */
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 40px;
+            flex-wrap: wrap;
+            background: #f5f7fa;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #93c5fd;
+            border-radius: 16px;
+            padding: 35px 30px;
+            width: 280px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .card .icon { font-size: 45px; margin-bottom: 15px; }
+
+        .card h3 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .card p { color: #6b7280; font-size: 14px; line-height: 1.6; }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🗄️ DB Academy</h1>
+       <nav>
+    <a href="index.html" class="active">Bosh sahifa</a>
+    <a href="darslar.html">Darslar</a>
+    <a href="amaliyot.html">Amaliyot</a>
+    <a href="test.html">Test</a>
+</nav>
+    </header>
+
+    <section class="hero">
+        <h2>Ma'lumotlar Bazasini<br>Professional O'rganing</h2>
+        <p>Interaktiv darslar, amaliy mashqlar va real loyihalar bilan</p>
+       
+    </section>
+
+    <section class="cards">
+        <div class="card">
+            <div class="icon">📚</div>
+            <h3>Nazariya</h3>
+            <p>SQL, jadvallar, munosabatlar va ma'lumotlar bazasi asoslarini o'rganing</p>
+        </div>
+        <div class="card">
+            <div class="icon">⚡</div>
+            <h3>Amaliyot</h3>
+            <p>Brauzerda to'g'ridan-to'g'ri SQL so'rovlarini yozing va natijani ko'ring</p>
+        </div>
+        <div class="card">
+            <div class="icon">🏆</div>
+            <h3>Testlar</h3>
+            <p>Bilimingizni tekshiring va sertifikat oling</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 DB Academy — Ma'lumotlar Bazasi O'quv Platformasi</p>
+    </footer>
+
+</body>
+</html>
